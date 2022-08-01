@@ -1,8 +1,8 @@
 package com.looselycoupled.monoshop.application.users.features.jwt;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.spec.SecretKeySpec;
@@ -10,6 +10,7 @@ import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 class SpringJwtManager implements JwtManager {
@@ -53,5 +54,31 @@ class SpringJwtManager implements JwtManager {
                    .getBody()
                    .getExpiration()
                    .toString();
+    }
+    
+    @Override
+    public String resolveUsername(String token) {
+        return Jwts.parser()
+                       .setSigningKey(secretKey)
+                       .parseClaimsJws(token)
+                       .getBody()
+                       .getSubject();
+    }
+    
+    @Override
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+            return true;
+        } catch (SignatureException ex) {
+            log.error("Invalid JWT signature: {}", ex);
+        } catch (MalformedJwtException ex) {
+            log.error("Invalid JWT: {}", ex);
+        } catch (ExpiredJwtException ex) {
+            log.error("Expired JWT: {}", ex);
+        } catch (UnsupportedJwtException ex) {
+            log.error("Unsupported JWT: {}", ex);
+        }
+        return false;
     }
 }

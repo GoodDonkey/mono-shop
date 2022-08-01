@@ -5,4 +5,8 @@ public interface JwtManager {
     String createRefreshToken(CreateRefreshToken request);
     
     String getExpireTimeFromToken(String token);
+    
+    String resolveUsername(String token);
+    
+    boolean validateToken(String token);
 }
