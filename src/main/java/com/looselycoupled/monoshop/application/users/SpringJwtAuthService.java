@@ -2,9 +2,9 @@ package com.looselycoupled.monoshop.application.users;
 
 import com.looselycoupled.monoshop.application.users.data.UserInfo;
 import com.looselycoupled.monoshop.application.users.data.UserInfoJpaRepository;
-import com.looselycoupled.monoshop.application.users.jwt.CreateAccessToken;
-import com.looselycoupled.monoshop.application.users.jwt.CreateRefreshToken;
-import com.looselycoupled.monoshop.application.users.jwt.JwtManager;
+import com.looselycoupled.monoshop.application.users.features.jwt.CreateAccessToken;
+import com.looselycoupled.monoshop.application.users.features.jwt.CreateRefreshToken;
+import com.looselycoupled.monoshop.application.users.features.jwt.JwtManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;

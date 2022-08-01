@@ -1,4 +1,4 @@
-package com.looselycoupled.monoshop.application.users.jwt;
+package com.looselycoupled.monoshop.application.users.features.jwt;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
