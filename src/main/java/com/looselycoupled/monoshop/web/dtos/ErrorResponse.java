@@ -1,6 +1,6 @@
 package com.looselycoupled.monoshop.web.dtos;
 
-public class ErrorResponse {
+class ErrorResponse {
     
     private final int status;
     private final String type;

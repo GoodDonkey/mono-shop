@@ -1,16 +1,20 @@
 package com.looselycoupled.monoshop.web;
 
 import com.looselycoupled.monoshop.web.dtos.ErrorResponseBody;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.SignatureException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 
-@ControllerAdvice(assignableTypes = {MemberController.class})
+@RestControllerAdvice
 public class MemberControllerAdvice {
     
     @ExceptionHandler(MethodArgumentNotValidException.class)
