@@ -1,10 +1,10 @@
-package com.looselycoupled.monoshop.web;
+package com.looselycoupled.monoshop.web.dtos;
 
 public class ErrorResponse {
     
+    private final int status;
     private final String type;
     private final Object message;
-    private final int status;
     private final String requestUri;
     
     public ErrorResponse(String type, Object message, int status, String requestUri) {

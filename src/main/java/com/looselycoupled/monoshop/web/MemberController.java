@@ -1,31 +1,42 @@
 package com.looselycoupled.monoshop.web;
 
+import com.looselycoupled.monoshop.application.users.*;
+import com.looselycoupled.monoshop.web.dtos.SuccessResponseBody;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.HashMap;
 
 @Slf4j
-@Controller
+@RestController
+@RequiredArgsConstructor
 public class MemberController {
     
+    private final JwtAuthService jwtAuthService;
+    
     @PostMapping("/api/v1/signup")
-    public String signup(@Valid @ModelAttribute("member") MemberSignupRequest memberDTO,
-                         BindingResult bindingResult) {
-        log.debug("MemberSignupRequest: {}", memberDTO);
-        if (bindingResult.hasErrors()) {
-            HashMap<String, String> errors = new HashMap<>();
-            bindingResult
-                     .getAllErrors()
-                     .forEach(error -> errors.put(((FieldError) error).getField(), error.getDefaultMessage()));
-            log.debug("errors: {}", errors);
-            return "redirect:/signup";
-        }
-        return "redirect:/";
+    public ResponseEntity<SuccessResponseBody> signup(@Valid @RequestBody SignupRequest request) {
+        log.debug("SignupRequest: {}", request);
+        SignupResponse signupResponse = jwtAuthService.signup(request);
+        return ResponseEntity.ok().body(SuccessResponseBody.builder()
+                                                           .status(HttpStatus.OK.value())
+                                                           .message("회원가입에 성공하였습니다.")
+                                                           .data(signupResponse)
+                                                           .build());
+    }
+    
+    @PostMapping("/api/v1/login")
+    public ResponseEntity<SuccessResponseBody> login(@Valid @RequestBody LoginRequest request) {
+        JwtLoginResponse loginResponse = jwtAuthService.login(request);
+        return ResponseEntity.ok().body(SuccessResponseBody.builder()
+                                                .status(HttpStatus.OK.value())
+                                                .message("로그인에 성공하였습니다.")
+                                                .data(loginResponse)
+                                                           .build());
     }
 }

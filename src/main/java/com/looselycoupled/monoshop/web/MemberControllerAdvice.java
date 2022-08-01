@@ -1,5 +1,6 @@
 package com.looselycoupled.monoshop.web;
 
+import com.looselycoupled.monoshop.web.dtos.ErrorResponseBody;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;

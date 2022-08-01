@@ -1,4 +1,4 @@
-package com.looselycoupled.monoshop.web;
+package com.looselycoupled.monoshop.web.dtos;
 
 import org.springframework.http.HttpStatus;
 
