@@ -14,12 +14,11 @@ import java.util.Date;
 @RequiredArgsConstructor
 class SpringJwtManager implements JwtManager {
     
-    private final SignatureAlgorithm ALGORITHM = SignatureAlgorithm.HS256;
+    private static final SignatureAlgorithm ALGORITHM = SignatureAlgorithm.HS256;
+    private static final long ACCESS_TOKEN_EXPIRE_TIME = 30 * 60 * 1000L;   // 30분
+    private static final long REFRESH_TOKEN_EXPIRE_TIME = 7 * 60 * 60 * 24 * 1000L; // 7일
+    
     private final String secretKeyString = "temp";
-    
-    private static final long ACCESS_TOKEN_EXPIRE_TIME = 60 * 1000L;   // 1분
-    private static final long REFRESH_TOKEN_EXPIRE_TIME = 60 * 60 * 24 * 1000L; // 1일
-    
     private final Key secretKey;
     
     public SpringJwtManager() {
@@ -41,7 +40,7 @@ class SpringJwtManager implements JwtManager {
     public String createRefreshToken(CreateRefreshToken request){
         return Jwts.builder()
                        .setSubject(request.getUsername())
-                       .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPIRE_TIME))
+                       .setExpiration(new Date(System.currentTimeMillis() + REFRESH_TOKEN_EXPIRE_TIME))
                        .signWith(ALGORITHM, secretKey)
                    .compact();
     }
