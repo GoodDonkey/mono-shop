@@ -1,5 +1,6 @@
 package com.looselycoupled.monoshop.application.users;
 
+import com.looselycoupled.monoshop.application.users.data.Role;
 import com.looselycoupled.monoshop.application.users.data.UserInfo;
 import com.looselycoupled.monoshop.application.users.data.UserInfoJpaRepository;
 import com.looselycoupled.monoshop.application.users.features.jwt.CreateAccessToken;
@@ -31,7 +32,7 @@ class SpringJwtAuthService implements JwtAuthService{
         if (userInfo != null) {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
-        UserInfo newUserInfo = UserInfo.builder().username(username).password(password).build();
+        UserInfo newUserInfo = UserInfo.builder().username(username).password(password).role(Role.ROLE_MEMBER).build();
         UserInfo save = userInfoJpaRepository.save(newUserInfo);
         log.debug("UserInfo: {}", save);
         return new SignupResponse(username);

@@ -2,7 +2,10 @@ package com.looselycoupled.monoshop.application.users.features.security;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.looselycoupled.monoshop.web.dtos.ErrorResponseBody;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -21,11 +24,18 @@ public class ExceptionHandlingFilter extends OncePerRequestFilter {
                                                                                                                        IOException {
         try{
             filterChain.doFilter(request,response);
-        } catch (SignatureException ex){
-            log.error("exception exception handler filter");
+        } catch (SignatureException ex) {
+            log.error("Invalid JWT signature: {}", ex.getMessage());
             setErrorResponse(request, response, ex);
-        } catch (RuntimeException ex){
-            log.error("runtime exception exception handler filter");
+        } catch (MalformedJwtException ex) {
+            log.error("Invalid JWT: {}", ex.getMessage());
+            setErrorResponse(request, response, ex);
+        } catch (ExpiredJwtException ex) {
+            log.error("Expired JWT: {}", ex.getMessage());
+            setErrorResponse(request, response, ex);
+        } catch (UnsupportedJwtException ex) {
+            log.error("Unsupported JWT: {}", ex.getMessage());
+            setErrorResponse(request, response, ex);
         }
     }
     

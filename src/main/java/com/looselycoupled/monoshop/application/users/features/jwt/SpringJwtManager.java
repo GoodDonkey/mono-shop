@@ -65,20 +65,14 @@ class SpringJwtManager implements JwtManager {
                        .getSubject();
     }
     
+    /*
+    * 토큰을 검증한다.
+    * 토큰이 파싱이 가능하면 true 를 반환한다.
+    * Expected Exceptions
+    *   JwtException 클래스 상속 예외들
+    * */
     @Override
     public boolean validateToken(String token) {
-        try {
-            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
-            return true;
-        } catch (SignatureException ex) {
-            log.error("Invalid JWT signature: {}", ex);
-        } catch (MalformedJwtException ex) {
-            log.error("Invalid JWT: {}", ex);
-        } catch (ExpiredJwtException ex) {
-            log.error("Expired JWT: {}", ex);
-        } catch (UnsupportedJwtException ex) {
-            log.error("Unsupported JWT: {}", ex);
-        }
-        return false;
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token) != null;
     }
 }
