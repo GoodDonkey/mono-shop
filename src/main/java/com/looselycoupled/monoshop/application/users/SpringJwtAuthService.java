@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -32,7 +33,11 @@ class SpringJwtAuthService implements JwtAuthService{
         if (userInfo != null) {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
-        UserInfo newUserInfo = UserInfo.builder().username(username).password(password).role(Role.ROLE_MEMBER).build();
+        UserInfo newUserInfo = UserInfo.builder()
+                                       .userId(UUID.randomUUID())
+                                       .username(username)
+                                       .password(password)
+                                       .role(Role.ROLE_MEMBER).build();
         UserInfo save = userInfoJpaRepository.save(newUserInfo);
         log.debug("UserInfo: {}", save);
         return new SignupResponse(username);
