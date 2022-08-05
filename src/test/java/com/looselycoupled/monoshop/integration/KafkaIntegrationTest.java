@@ -1,11 +1,11 @@
 package com.looselycoupled.monoshop.integration;
 
-import com.looselycoupled.monoshop.application.sales.OrderItemProjection;
-import com.looselycoupled.monoshop.application.sales.data.OrderItemRepository;
-import com.looselycoupled.monoshop.application.warehouse.RegisterProduct;
-import com.looselycoupled.monoshop.application.warehouse.WarehouseService;
-import com.looselycoupled.monoshop.application.warehouse.data.Product;
-import com.looselycoupled.monoshop.application.warehouse.data.ProductRepository;
+import com.looselycoupled.monoshop.sales.OrderItemProjection;
+import com.looselycoupled.monoshop.sales.data.OrderItemRepository;
+import com.looselycoupled.monoshop.warehouse.RegisterProduct;
+import com.looselycoupled.monoshop.warehouse.WarehouseService;
+import com.looselycoupled.monoshop.warehouse.data.Product;
+import com.looselycoupled.monoshop.warehouse.data.ProductRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

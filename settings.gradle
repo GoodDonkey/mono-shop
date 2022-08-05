@@ -1,1 +1,6 @@
 rootProject.name = 'mono-shop'
+
+include("common")
+include("users")
+include("sales")
+include("warehouse")
