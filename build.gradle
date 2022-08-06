@@ -4,9 +4,15 @@ plugins {
     id 'java'
 }
 
-group = 'com.looselycoupled'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+allprojects {
+    group = 'com.looselycoupled'
+    version = '0.0.1-SNAPSHOT'
+    sourceCompatibility = '11'
+    ext {
+        testDirExcludeName = "common"
+    }
+}
+
 
 configurations {
     compileOnly {
@@ -19,16 +25,23 @@ repositories {
 }
 
 dependencies {
-    implementation project(':common')
-    implementation project(':users')
-    implementation project(':sales')
-    implementation project(':warehouse')
+    implementation project(':api-common')
+    implementation project(':service-users')
+    implementation project(':service-sales')
+    implementation project(':service-warehouse')
 
     // 루트 프로젝트 의존성: 애플리케이션 + kafka 설정에 필요
+    // spring boot
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    //lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+
+    // kafka
     implementation 'org.springframework.kafka:spring-kafka'
+
+    // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.kafka:spring-kafka-test'
 }
@@ -48,10 +61,9 @@ subprojects {
     }
 
     dependencies {
-        // 서브 프로젝트 공통 의존성
+        // 공통 의존성
         implementation 'org.springframework.boot:spring-boot-starter-web'
         implementation 'org.springframework.boot:spring-boot-starter-validation'
-        testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
         // lombok
         compileOnly 'org.projectlombok:lombok'
@@ -60,7 +72,6 @@ subprojects {
         // kafka
         implementation 'org.springframework.kafka:spring-kafka'
         testImplementation 'org.springframework.kafka:spring-kafka-test'
-
 
         testImplementation('org.springframework.boot:spring-boot-starter-test') {
             exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
@@ -89,20 +100,25 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-project(':users') {
+project(':api-common') {
     dependencies {
-        implementation project(':common')
     }
 }
 
-project(':sales') {
+project(':service-users') {
     dependencies {
-        implementation project(':common')
+        implementation project(':api-common')
     }
 }
 
-project(':warehouse') {
+project(':service-sales') {
     dependencies {
-        implementation project(':common')
+        implementation project(':api-common')
+    }
+}
+
+project(':service-warehouse') {
+    dependencies {
+        implementation project(':api-common')
     }
 }

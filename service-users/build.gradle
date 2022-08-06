@@ -1,12 +1,17 @@
 dependencies {
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     runtimeOnly 'mysql:mysql-connector-java'
 
+    // thymeleaf
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
+    // security
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 
+    // jwt
     implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
